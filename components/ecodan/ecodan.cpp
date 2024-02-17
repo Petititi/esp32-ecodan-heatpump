@@ -3,6 +3,14 @@
 namespace esphome {
 namespace ecodan_ {
 
+static constexpr uint8_t power_state_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t force_dhw_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x34, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t mode_select_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t hot_water_mode_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t hot_water_setpoint_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t zone1_room_temp_setpoint_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t zone1_flow_temp_setpoint_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
 static const char *TAG = "ecodan";
 
 void EcodanSwitch::dump_config() {
@@ -13,13 +21,17 @@ void EcodanSwitch::dump_config() {
 void EcodanSwitch::write_state(bool state) {
   uint8_t sendBuffer[PACKET_BUFFER_SIZE];
   bool send = false;
-  #define ECODAN_WRITE_SWITCH(sw) \
-    if (this->key_ == #sw) { \
-      send = true; \
-      memcpy(sendBuffer, command_##sw::packetMask, PACKET_BUFFER_SIZE); \
-      sendBuffer[command_##sw::varIndex] = state ? 1 : 0; \
+
+    if (this->key_ == "power_state") {
+      send = true;
+      memcpy(sendBuffer, power_state_msg, PACKET_BUFFER_SIZE);
+      sendBuffer[command_power_state::varIndex] = state ? 1 : 0;
     }
-    ECODAN_SWITCH_LIST(ECODAN_WRITE_SWITCH, )
+    if (this->key_ == "force_dhw") {
+      send = true;
+      memcpy(sendBuffer, force_dhw_msg, PACKET_BUFFER_SIZE);
+      sendBuffer[command_force_dhw::varIndex] = state ? 1 : 0;
+    }
   if (send == false) {
     return;
   }
@@ -35,14 +47,20 @@ void EcodanSelect::dump_config() {
 void EcodanSelect::control(const std::string &value) {
   uint8_t sendBuffer[PACKET_BUFFER_SIZE];
   bool send = false;
-  #define ECODAN_WRITE_SELECT(sl) \
-    if (this->key_ == #sl) { \
-      send = true; \
-      memcpy(sendBuffer, command_##sl::packetMask, PACKET_BUFFER_SIZE); \
-      uint8_t mode = parseModeStringToInt(command_##sl::varType, value); \
-      sendBuffer[command_##sl::varIndex] = mode; \
+
+    if (this->key_ == "mode_select") {
+      send = true;
+      memcpy(sendBuffer, mode_select_msg, PACKET_BUFFER_SIZE);
+      uint8_t mode = parseModeStringToInt(command_mode_select::varType, value);
+      sendBuffer[command_mode_select::varIndex] = mode;
     }
-    ECODAN_SELECT_LIST(ECODAN_WRITE_SELECT, )
+
+    if (this->key_ == "hot_water_mode") {
+      send = true;
+      memcpy(sendBuffer, hot_water_mode_msg, PACKET_BUFFER_SIZE);
+      uint8_t mode = parseModeStringToInt(command_hot_water_mode::varType, value);
+      sendBuffer[command_hot_water_mode::varIndex] = mode;
+    }
   if (send == false) {
     return;
   }
@@ -61,14 +79,27 @@ void EcodanNumber::control(float value) {
   temp1 = (uint8_t) (temperature >> 8);
   temp2 = (uint8_t) (temperature & 0x00ff);
   bool send = false;
-  #define ECODAN_WRITE_NUMBER(nb) \
-    if (this->key_ == #nb) { \
-      send = true; \
-      memcpy(sendBuffer, command_##nb::packetMask, PACKET_BUFFER_SIZE); \
-      sendBuffer[command_##nb::varIndex] = temp1; \
-      sendBuffer[command_##nb::varIndex + 1] = temp2; \
+
+
+    if (this->key_ == "hot_water_setpoint") {
+      send = true;
+      memcpy(sendBuffer, hot_water_setpoint_msg, PACKET_BUFFER_SIZE);
+      sendBuffer[command_hot_water_setpoint::varIndex] = temp1;
+      sendBuffer[command_hot_water_setpoint::varIndex + 1] = temp2;
     }
-    ECODAN_NUMBER_LIST(ECODAN_WRITE_NUMBER, )
+    if (this->key_ == "zone1_room_temp_setpoint") {
+      send = true;
+      memcpy(sendBuffer, zone1_room_temp_setpoint_msg, PACKET_BUFFER_SIZE);
+      sendBuffer[command_zone1_room_temp_setpoint::varIndex] = temp1;
+      sendBuffer[command_zone1_room_temp_setpoint::varIndex + 1] = temp2;
+    }
+    if (this->key_ == "zone1_flow_temp_setpoint") {
+      send = true;
+      memcpy(sendBuffer, zone1_flow_temp_setpoint_msg, PACKET_BUFFER_SIZE);
+      sendBuffer[command_zone1_flow_temp_setpoint::varIndex] = temp1;
+      sendBuffer[command_zone1_flow_temp_setpoint::varIndex + 1] = temp2;
+    }
+
   if (send == false) {
     return;
   }
@@ -228,7 +259,7 @@ void EcodanHeatpump::parsePacket(uint8_t *packet) {
 
 void EcodanHeatpump::setRemoteTemperature(float value) {
   uint8_t sendBuffer[PACKET_BUFFER_SIZE], temp1, temp2;
-  memcpy(sendBuffer, command_zone1_room_temp::packetMask, PACKET_BUFFER_SIZE);
+  memcpy(sendBuffer, &command_zone1_room_temp::packetMask, PACKET_BUFFER_SIZE);
   if (value > 0) {
     ESP_LOGI(TAG, "Room temperature set to: %f", value);
     // uint16_t temperature = value * 100;
