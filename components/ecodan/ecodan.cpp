@@ -3,13 +3,15 @@
 namespace esphome {
 namespace ecodan_ {
 
-static constexpr uint8_t power_state_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-static constexpr uint8_t force_dhw_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x34, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-static constexpr uint8_t mode_select_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-static constexpr uint8_t hot_water_mode_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-static constexpr uint8_t hot_water_setpoint_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-static constexpr uint8_t zone1_room_temp_setpoint_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-static constexpr uint8_t zone1_flow_temp_setpoint_msg[PACKET_BUFFER_SIZE] = {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t power_state_msg[PACKET_BUFFER_SIZE] =                      {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t force_dhw_msg[PACKET_BUFFER_SIZE] =                        {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x34, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t mode_select_msg[PACKET_BUFFER_SIZE] =                      {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t hot_water_mode_msg[PACKET_BUFFER_SIZE] =                   {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t hot_water_setpoint_msg[PACKET_BUFFER_SIZE] =               {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t zone1_room_temp_setpoint_msg[PACKET_BUFFER_SIZE] =         {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t zone1_flow_temp_setpoint_msg[PACKET_BUFFER_SIZE] =         {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t zone1_room_temp_setpoint_freeze_msg[PACKET_BUFFER_SIZE] =  {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static constexpr uint8_t zone1_flow_temp_setpoint_freeze_msg[PACKET_BUFFER_SIZE] =  {0xfc, 0x41, 0x02, 0x7a, 0x10, 0x32, 0x80, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 static const char *TAG = "ecodan";
 
@@ -80,26 +82,30 @@ void EcodanNumber::control(float value) {
   temp2 = (uint8_t) (temperature & 0x00ff);
   bool send = false;
 
-
-    if (this->key_ == "hot_water_setpoint") {
-      send = true;
-      memcpy(sendBuffer, hot_water_setpoint_msg, PACKET_BUFFER_SIZE);
-      sendBuffer[command_hot_water_setpoint::varIndex] = temp1;
-      sendBuffer[command_hot_water_setpoint::varIndex + 1] = temp2;
-    }
-    if (this->key_ == "zone1_room_temp_setpoint") {
-      send = true;
+  if (this->key_ == "hot_water_setpoint") {
+    send = true;
+    memcpy(sendBuffer, hot_water_setpoint_msg, PACKET_BUFFER_SIZE);
+    sendBuffer[command_hot_water_setpoint::varIndex] = temp1;
+    sendBuffer[command_hot_water_setpoint::varIndex + 1] = temp2;
+  }
+  if (this->key_ == "zone1_room_temp_setpoint") {
+    send = true;
+    if (this->heatpump_->isCoolingMode())
+      memcpy(sendBuffer, zone1_room_temp_setpoint_freeze_msg, PACKET_BUFFER_SIZE);
+    else
       memcpy(sendBuffer, zone1_room_temp_setpoint_msg, PACKET_BUFFER_SIZE);
-      sendBuffer[command_zone1_room_temp_setpoint::varIndex] = temp1;
-      sendBuffer[command_zone1_room_temp_setpoint::varIndex + 1] = temp2;
-    }
-    if (this->key_ == "zone1_flow_temp_setpoint") {
-      send = true;
+    sendBuffer[command_zone1_room_temp_setpoint::varIndex] = temp1;
+    sendBuffer[command_zone1_room_temp_setpoint::varIndex + 1] = temp2;
+  }
+  if (this->key_ == "zone1_flow_temp_setpoint") {
+    send = true;
+    if (this->heatpump_->isCoolingMode())
+      memcpy(sendBuffer, zone1_flow_temp_setpoint_freeze_msg, PACKET_BUFFER_SIZE);
+    else
       memcpy(sendBuffer, zone1_flow_temp_setpoint_msg, PACKET_BUFFER_SIZE);
-      sendBuffer[command_zone1_flow_temp_setpoint::varIndex] = temp1;
-      sendBuffer[command_zone1_flow_temp_setpoint::varIndex + 1] = temp2;
-    }
-
+    sendBuffer[command_zone1_flow_temp_setpoint::varIndex] = temp1;
+    sendBuffer[command_zone1_flow_temp_setpoint::varIndex + 1] = temp2;
+  }
   if (send == false) {
     return;
   }
@@ -245,6 +251,16 @@ void EcodanHeatpump::parsePacket(uint8_t *packet) {
     field_##e::address == packet[5] && \
     0x62 == packet[1]) \
     type##_##e##_->publish_state(parser(packet, field_##e::varType, field_##e::varIndex));
+#define ECODAN_PUBLISH_ENTITY_ONLY_CHANGES(e, type, parser) \
+  if (this->type##_##e##_ != nullptr && \
+    field_##e::address == packet[5] && \
+    0x62 == packet[1]) \
+    {\
+      float newValue = parser(packet, field_##e::varType, field_##e::varIndex);\
+      if (type##_##e##_->prevValue_ != newValue) \
+        type##_##e##_->publish_state(newValue);\
+      type##_##e##_->prevValue_ == newValue;\
+    };
 #define ECODAN_PUBLISH_SENSOR(p_s) ECODAN_PUBLISH_ENTITY(p_s, s, parsePacketNumberItem)
   ECODAN_SENSOR_LIST(ECODAN_PUBLISH_SENSOR, )
 #define ECODAN_PUBLISH_TEXT_SENSOR(p_ts) ECODAN_PUBLISH_ENTITY(p_ts, ts, parsePacketTextItem)
@@ -253,12 +269,18 @@ void EcodanHeatpump::parsePacket(uint8_t *packet) {
   ECODAN_SWITCH_LIST(ECODAN_PUBLISH_SWITCH, )
 #define ECODAN_PUBLISH_SELECT(p_sl) ECODAN_PUBLISH_ENTITY(p_sl, sl, parsePacketTextItem)
   ECODAN_SELECT_LIST(ECODAN_PUBLISH_SELECT, )
-#define ECODAN_PUBLISH_NUMBER(p_nb) ECODAN_PUBLISH_ENTITY(p_nb, nb, parsePacketNumberItem)
+#define ECODAN_PUBLISH_NUMBER(p_nb) ECODAN_PUBLISH_ENTITY_ONLY_CHANGES(p_nb, nb, parsePacketNumberItem)
   ECODAN_NUMBER_LIST(ECODAN_PUBLISH_NUMBER, )
 }
 
 void EcodanHeatpump::setRemoteTemperature(float value) {
 //no-op
+}
+
+
+bool EcodanHeatpump::isCoolingMode() const {
+  auto curMode = sl_mode_select_->active_index().value();
+  return curMode == 3 || curMode == 4;
 }
 
 void EcodanHeatpump::dump_config() {

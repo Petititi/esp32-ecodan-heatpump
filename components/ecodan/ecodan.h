@@ -90,6 +90,7 @@ class EcodanNumber: public number::Number, public Component {
     void set_key(string key) {this->key_ = key;}
     void set_heatpump(EcodanHeatpump* heatpump) {this->heatpump_ = heatpump;}
 
+    float prevValue_;
   protected:
     void control(float value) override;
 
@@ -109,6 +110,8 @@ class EcodanHeatpump : public PollingComponent, public uart::UARTDevice {
     void dump_config() override;
 
     void setRemoteTemperature(float value);
+
+    bool isCoolingMode() const;
 
     // Sensor setters
 #define ECODAN_SET_SENSOR(s) \
